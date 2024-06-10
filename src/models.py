@@ -35,6 +35,8 @@ class User(Base):
     salt = Column(String(250), unique=True)
     role_id = Column(Integer, ForeignKey('role.id'))
     user_address = Column(Integer, ForeignKey('address.id'))
+    Psicology_profile = Column(Integer, ForeignKey('psicology_profile.id'))
+    marketplace = Column(Integer, ForeignKey('marketplace.id'))
 
 class Role(Base):
     __tablename__ = 'role'
@@ -70,8 +72,6 @@ class Psicology_profile(Base):
     psych_strategies = Column(String(250), nullable=True)
     PsychExperiences = Column(String(250), nullable=True)
     socialNetwork_id = Column(Integer, ForeignKey('socialnetwork.id'))
-    client_list = Column(Integer, ForeignKey('client_list.id'))
-
 
 class SocialNetwork(Base):
     __tablename__ = 'socialnetwork'
@@ -92,8 +92,8 @@ class Client_task(Base):
     # Here we define columns for the table person
     # Notice that each column is also a normal Python instance attribute.
     id = Column(Integer, primary_key=True)
-    psicology_task = Column(Integer, ForeignKey('user.id'))
-    client_task = Column(Integer, ForeignKey('user.id'))
+    psychologist_id = Column(Integer, ForeignKey('user.id'))
+    client_id = Column(Integer, ForeignKey('user.id'))
 
 class Session(Base):
     __tablename__ = 'session'
@@ -106,9 +106,14 @@ class Session(Base):
     reserved = Column(Boolean(), nullable = True)
     calendar_date = Column(Date(), nullable = True)
     room_number = Column(String(250), nullable=True)
-    psicology_host = Column(Integer, ForeignKey('user.id'))
-    client_session = Column(Integer, ForeignKey('user.id'))
+    psychologist_session_id = Column(Integer, ForeignKey('user.id'))
+    client_session_id = Column(Integer, ForeignKey('user.id'))
+    session_type = Column(Integer, ForeignKey('session_type.id'))
 
+class Session_type(Base):
+    __tablename__ = "session_type"
+    id = Column(Integer, primary_key=True)
+    type_of_session = Column(String(250), nullable=True)
 
 class Payment_acount(Base):
     __tablename__ = "payment_acount"
@@ -128,6 +133,14 @@ class Phrase(Base):
     id = Column(Integer, primary_key=True) 
     phrase = Column(String(250), nullable=True)
     author = Column(String(20), nullable=True)
+
+class MarketPlace(Base):
+    __tablename__ = "marketplace"
+    id = Column(Integer, primary_key=True) 
+    product = Column(String(250), nullable=True)
+    description = Column(String(20), nullable=True)
+    status = Column(Boolean(), nullable=True)
+    cost = Column(String(20), nullable=True)
 
 # class Address(Base):
 #     __tablename__ = 'address'
